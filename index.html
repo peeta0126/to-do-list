@@ -1,21 +1,43 @@
 <!doctype html>
 <html lang="ko">
 <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>To Do Mate</title>
+  <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js');
     }
   </script>
-
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>To Do Mate</title>
-  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="app">
-    <h1>📝 To Do Mate</h1>
+  <!-- ===== 회원가입 화면 ===== -->
+  <div class="wrap" id="registerWrap">
+    <h1>🧾 회원가입</h1>
+    <input type="text" id="registerId" placeholder="아이디 입력">
+    <input type="password" id="registerPw" placeholder="비밀번호 입력">
+    <button id="registerBtn">가입하기</button>
+    <p>이미 계정이 있나요? <a href="#" id="toLogin">로그인</a></p>
+  </div>
+
+  <!-- ===== 로그인 화면 ===== -->
+  <div class="wrap" id="loginWrap" style="display:none;">
+    <h1>🔐 로그인</h1>
+    <input type="text" id="loginId" placeholder="아이디">
+    <input type="password" id="loginPw" placeholder="비밀번호">
+    <button id="loginBtn">로그인</button>
+    <p>계정이 없나요? <a href="#" id="toRegister">회원가입</a></p>
+  </div>
+
+  <!-- ===== 앱 메인 화면 ===== -->
+  <div class="wrap" id="appWrap" style="display:none;">
+    <div class="header">
+      <h2 id="welcomeMsg"></h2>
+      <button id="logoutBtn">로그아웃</button>
+    </div>
+
     <div class="input-area">
       <input id="todo-input" type="text" placeholder="할 일을 입력하세요" />
       <button id="add-btn">추가</button>
