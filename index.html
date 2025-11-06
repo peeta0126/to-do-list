@@ -6,30 +6,19 @@
   <title>To Do Mate</title>
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js');
-    }
-  </script>
 </head>
 <body>
 
-  <!-- ===== 회원가입 화면 ===== -->
-  <div class="wrap" id="registerWrap">
-    <h1>🧾 회원가입</h1>
-    <input type="text" id="registerId" placeholder="아이디 입력">
-    <input type="password" id="registerPw" placeholder="비밀번호 입력">
-    <button id="registerBtn">가입하기</button>
-    <p>이미 계정이 있나요? <a href="#" id="toLogin">로그인</a></p>
-  </div>
-
-  <!-- ===== 로그인 화면 ===== -->
-  <div class="wrap" id="loginWrap" style="display:none;">
-    <h1>🔐 로그인</h1>
-    <input type="text" id="loginId" placeholder="아이디">
-    <input type="password" id="loginPw" placeholder="비밀번호">
-    <button id="loginBtn">로그인</button>
-    <p>계정이 없나요? <a href="#" id="toRegister">회원가입</a></p>
+  <!-- ===== 로그인 / 회원가입 통합 화면 ===== -->
+  <div class="wrap" id="authWrap">
+    <h2 id="authTitle">🔐 로그인</h2>
+    <input type="text" id="authId" placeholder="아이디 입력">
+    <input type="password" id="authPw" placeholder="비밀번호 입력">
+    <input type="password" id="authPwCheck" placeholder="비밀번호 확인" style="display:none;">
+    <button id="authBtn">로그인</button>
+    <p id="switchText">
+      계정이 없나요? <a href="#" id="switchMode">회원가입</a>
+    </p>
   </div>
 
   <!-- ===== 앱 메인 화면 ===== -->
@@ -52,5 +41,11 @@
   </div>
 
   <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js');
+    }
+  </script>
 </body>
 </html>
+  
