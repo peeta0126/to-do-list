@@ -17,9 +17,14 @@
   font-family: 'Inter', 'Noto Sans KR', sans-serif;
 }
 
-body {
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden; /* ✅ 스크롤 완전 차단 */
+  touch-action: none; /* ✅ 모바일 제스처 확대/이동 방지 */
   background: var(--bg);
-  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
