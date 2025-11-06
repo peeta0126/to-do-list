@@ -1,99 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
 :root {
-  --bg-grad: linear-gradient(180deg, #e0f2fe 0%, #f9fafb 100%);
-  --accent: #3b82f6;
-  --accent-hover: #2563eb;
-  --text: #1e293b;
-  --subtext: #64748b;
-  --panel: rgba(255, 255, 255, 0.9);
-  --done: #94a3b8;
+  --primary: #007bff;
+  --primary-light: #e7f1ff;
+  --accent: #ff6b6b;
+  --bg: #f9fbff;
+  --text: #222;
+  --card: #ffffff;
+  --shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 }
 
-/* 기본 세팅 */
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', 'Noto Sans KR', sans-serif;
 }
 
 body {
-  font-family: 'Noto Sans KR', system-ui, sans-serif;
-  background: var(--bg-grad);
-  color: var(--text);
-  margin: 0;
-  padding: 0;
+  background: var(--bg);
+  min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
+  align-items: center;
 }
 
-/* 공통 카드 형태 */
+/* 공통 카드 스타일 */
 .wrap {
-  width: 100%;
-  max-width: 420px;
-  background: var(--panel);
-  border-radius: 24px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  margin: 40px 20px;
-  padding: 28px 20px;
-  backdrop-filter: blur(10px);
-  animation: fadeIn 0.5s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* 제목 */
-h1, h2 {
-  margin-top: 0;
+  width: 380px;
+  background: var(--card);
+  box-shadow: var(--shadow);
+  border-radius: 16px;
+  padding: 30px;
   text-align: center;
+  transition: 0.3s;
+}
+
+h1, h2, h3 {
   color: var(--text);
+  margin-bottom: 16px;
 }
 
-p {
-  color: var(--subtext);
-  text-align: center;
+/* ===== 로그인 / 회원가입 ===== */
+#authWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
 }
 
-/* ===== 입력창 (크게 변경됨) ===== */
-input {
+#authWrap input {
   width: 100%;
-  height: 52px;             /* ✅ 입력창 높이 업 */
-  padding: 0 16px;          /* 좌우 여백 */
-  border-radius: 16px;      /* 둥근 모서리 */
-  border: 1px solid #cbd5e1;
+  padding: 12px;
+  border: 1.5px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+#authWrap input:focus {
+  border-color: var(--primary);
+  background: var(--primary-light);
   outline: none;
-  margin-bottom: 12px;
-  font-size: 17px;          /* ✅ 글자 크기 확대 */
-  background: #f8fafc;
-  color: #1e293b;           /* ✅ 글자색 진하게 */
-  box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
 }
 
-input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(59,130,246,0.25);
-}
-
-/* ===== 버튼 ===== */
-button {
+#authBtn {
+  margin-top: 8px;
   width: 100%;
-  padding: 14px 20px;       /* ✅ 버튼 높이 확대 */
+  padding: 12px;
+  background: var(--primary);
+  color: #fff;
   border: none;
-  border-radius: 14px;
-  background: var(--accent);
-  color: white;
-  font-size: 16px;
+  border-radius: 8px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
   transition: 0.2s;
 }
 
-button:hover {
-  background: var(--accent-hover);
+#authBtn:hover {
+  background: #0062cc;
 }
 
-/* ===== 상단 헤더 ===== */
+#switchText {
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+#switchText a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+#switchText a:hover {
+  text-decoration: underline;
+}
+
+/* ===== 앱 메인 ===== */
+#appWrap {
+  width: 440px;
+  background: var(--card);
+  box-shadow: var(--shadow);
+  border-radius: 16px;
+  padding: 25px;
+  text-align: center;
+}
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -101,158 +114,164 @@ button:hover {
   margin-bottom: 16px;
 }
 
-.header h2 {
-  font-size: 18px;
+#welcomeMsg {
+  font-size: 17px;
+  font-weight: 600;
   color: var(--text);
 }
 
-.header button {
-  width: auto;
-  padding: 8px 14px;
-  font-size: 14px;
-  background: #f43f5e;
+#logoutBtn {
+  background: var(--accent);
+  border: none;
+  color: white;
+  padding: 6px 12px;
   border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: 0.2s;
 }
 
-.header button:hover {
-  background: #e11d48;
+#logoutBtn:hover {
+  background: #ff4c4c;
 }
 
-/* ===== 입력 영역 ===== */
-.input-area {
+/* ===== 캘린더 ===== */
+#calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+
+.calendar-day {
+  aspect-ratio: 1 / 1;
+  border-radius: 10px;
+  background: #f1f4f9;
   display: flex;
   align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-weight: 500;
+  color: #444;
+}
+
+.calendar-day:hover {
+  background: var(--primary-light);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.calendar-day.selected {
+  background: var(--primary);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.3);
+}
+
+.calendar-day.complete {
+  background: #d6f5d6;
+  color: #087f23;
+  font-weight: 600;
+}
+
+.calendar-day.incomplete {
+  background: #ffe5e5;
+  color: #b71c1c;
+  font-weight: 600;
+}
+
+/* ===== 할 일 입력 영역 ===== */
+.input-area {
+  display: flex;
   gap: 8px;
-  margin-bottom: 16px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
 #todo-input {
-  flex: 1;                 /* ✅ 입력창을 넓게 */
-  height: 48px;
-  padding: 0 14px;
-  border-radius: 12px;
-  border: 1px solid #cbd5e1;
-  font-size: 16px;
-  background: #f8fafc;
-  color: #1e293b;
-  outline: none;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1.5px solid #ccc;
+  font-size: 14px;
+  transition: 0.2s;
 }
 
 #todo-input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(59,130,246,0.25);
+  border-color: var(--primary);
+  outline: none;
+  background: var(--primary-light);
 }
+
 #add-btn {
-  width: 80px;              /* ✅ 버튼 작게 */
-  height: 48px;
-  border-radius: 12px;
-  background: var(--accent);
-  color: white;
-  font-size: 15px;
-  font-weight: 600;
+  padding: 10px 16px;
+  background: var(--primary);
+  color: #fff;
   border: none;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
   transition: 0.2s;
 }
 
 #add-btn:hover {
-  background: var(--accent-hover);
+  background: #0056b3;
 }
-/* ===== ToDo 리스트 ===== */
-ul {
+
+/* ===== 할 일 목록 ===== */
+#todo-list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-
-
-li {
+#todo-list li {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: white;
-  border-radius: 12px;
-  padding: 12px;
-  margin-bottom: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  background: #f7f9fc;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  box-shadow: var(--shadow);
   transition: 0.2s;
 }
 
-li.done {
-  background: #f1f5f9;
+#todo-list li.done span {
   text-decoration: line-through;
-  color: var(--done);
+  color: #888;
 }
 
-li button {
-  background: transparent;
+#todo-list li button {
   border: none;
-  font-size: 18px;
+  background: none;
   cursor: pointer;
-}
-
-li button:first-child {
-  color: #10b981; /* 초록 체크 */
-}
-
-li button:last-child {
-  color: #ef4444; /* 빨간 삭제 */
-}
-
-/* ===== 링크 ===== */
-a {
-  color: var(--accent);
-  font-weight: 600;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-/* ===== 달력 ===== */
-#calendar {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 6px;
-  margin-bottom: 16px;
-  text-align: center;
-}
-
-.calendar-day {
-  background: white;
-  border-radius: 10px;
-  padding: 10px 0;
-  cursor: pointer;
-  font-weight: 500;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  font-size: 16px;
+  margin-left: 6px;
   transition: 0.2s;
 }
 
-.calendar-day:hover {
-  transform: scale(1.05);
+#todo-list li button:hover {
+  transform: scale(1.1);
 }
 
-.calendar-day.selected {
-  background: #a5d8ff; /* 파스텔 블루 */
-  color: #1e293b;
-  font-weight: 700;
+#todo-list li button:nth-child(1) {
+  color: green;
 }
 
-.calendar-day.complete {
-  background: #a5d8ff; /* 모든 일 완료: 파랑 */
-}
-
-.calendar-day.incomplete {
-  background: #ffa8a8; /* 미완료: 빨강 */
+#todo-list li button:nth-child(2) {
+  color: red;
 }
 
 /* ===== 반응형 ===== */
 @media (max-width: 480px) {
-  .wrap {
-    margin: 20px;
+  .wrap, #appWrap {
+    width: 90%;
     padding: 20px;
   }
 }

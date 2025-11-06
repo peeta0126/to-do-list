@@ -125,11 +125,18 @@ function renderCalendar() {
       const fullDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
       dayCell.textContent = date;
 
-      if (todos[fullDate]) {
-        const allDone = todos[fullDate].every(t => t.done);
+      const dayTodos = todos[fullDate] || [];
+
+      // ===== ✅ 색상 상태 처리 =====
+      if (dayTodos.length === 0) {
+        // 할 일이 아예 없으면 초기 상태 (색상 없음)
+        dayCell.classList.remove('complete', 'incomplete');
+      } else {
+        const allDone = dayTodos.every(t => t.done);
         dayCell.classList.add(allDone ? 'complete' : 'incomplete');
       }
 
+      // ===== 선택된 날짜 표시 =====
       if (fullDate === currentDate) dayCell.classList.add('selected');
 
       dayCell.addEventListener('click', () => {
@@ -143,6 +150,7 @@ function renderCalendar() {
     calendar.appendChild(dayCell);
   }
 }
+
 
 // ===== 할 일 렌더링 =====
 function render() {
