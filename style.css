@@ -18,19 +18,18 @@
 }
 
 html, body {
-  margin: 0;
-  padding: 0;
   width: 100vw;
   height: 100vh;
-  overflow: hidden; /* ✅ 스크롤 완전 차단 */
-  touch-action: none; /* ✅ 모바일 제스처 확대/이동 방지 */
+  overflow: hidden;
+  touch-action: none;
+  overscroll-behavior: none;
   background: var(--bg);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* 공통 카드 스타일 */
+/* 공통 카드 */
 .wrap {
   width: 380px;
   background: var(--card);
@@ -41,12 +40,12 @@ html, body {
   transition: 0.3s;
 }
 
-h1, h2, h3 {
+h2, h3 {
   color: var(--text);
   margin-bottom: 16px;
 }
 
-/* ===== 로그인 / 회원가입 ===== */
+/* 로그인 / 회원가입 */
 #authWrap {
   display: flex;
   flex-direction: column;
@@ -60,7 +59,6 @@ h1, h2, h3 {
   border: 1.5px solid #ccc;
   border-radius: 8px;
   font-size: 14px;
-  transition: 0.2s;
 }
 
 #authWrap input:focus {
@@ -80,7 +78,6 @@ h1, h2, h3 {
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  transition: 0.2s;
 }
 
 #authBtn:hover {
@@ -102,7 +99,7 @@ h1, h2, h3 {
   text-decoration: underline;
 }
 
-/* ===== 앱 메인 ===== */
+/* 메인 앱 */
 #appWrap {
   width: 440px;
   background: var(--card);
@@ -133,20 +130,18 @@ h1, h2, h3 {
   border-radius: 8px;
   cursor: pointer;
   font-size: 13px;
-  transition: 0.2s;
 }
 
 #logoutBtn:hover {
   background: #ff4c4c;
 }
 
-/* ===== 캘린더 ===== */
+/* 캘린더 */
 #calendar {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 6px;
-  margin-top: 15px;
-  margin-bottom: 20px;
+  margin: 15px 0 20px 0;
 }
 
 .calendar-day {
@@ -159,36 +154,31 @@ h1, h2, h3 {
   font-size: 14px;
   cursor: pointer;
   transition: 0.2s;
-  font-weight: 500;
   color: #444;
 }
 
 .calendar-day:hover {
   background: var(--primary-light);
   color: var(--primary);
-  font-weight: 600;
 }
 
 .calendar-day.selected {
   background: var(--primary);
   color: white;
-  font-weight: 600;
   box-shadow: 0 0 6px rgba(0, 123, 255, 0.3);
 }
 
 .calendar-day.complete {
   background: #d6f5d6;
   color: #087f23;
-  font-weight: 600;
 }
 
 .calendar-day.incomplete {
   background: #ffe5e5;
   color: #b71c1c;
-  font-weight: 600;
 }
 
-/* ===== 할 일 입력 영역 ===== */
+/* 할 일 입력 */
 .input-area {
   display: flex;
   gap: 8px;
@@ -203,13 +193,12 @@ h1, h2, h3 {
   border-radius: 8px;
   border: 1.5px solid #ccc;
   font-size: 14px;
-  transition: 0.2s;
 }
 
 #todo-input:focus {
   border-color: var(--primary);
-  outline: none;
   background: var(--primary-light);
+  outline: none;
 }
 
 #add-btn {
@@ -220,19 +209,16 @@ h1, h2, h3 {
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
-  font-size: 14px;
-  transition: 0.2s;
 }
 
 #add-btn:hover {
   background: #0056b3;
 }
 
-/* ===== 할 일 목록 ===== */
+/* 할 일 목록 */
 #todo-list {
   list-style: none;
   padding: 0;
-  margin: 0;
 }
 
 #todo-list li {
@@ -244,7 +230,6 @@ h1, h2, h3 {
   padding: 10px 14px;
   margin-bottom: 8px;
   box-shadow: var(--shadow);
-  transition: 0.2s;
 }
 
 #todo-list li.done span {
@@ -258,11 +243,6 @@ h1, h2, h3 {
   cursor: pointer;
   font-size: 16px;
   margin-left: 6px;
-  transition: 0.2s;
-}
-
-#todo-list li button:hover {
-  transform: scale(1.1);
 }
 
 #todo-list li button:nth-child(1) {
@@ -273,7 +253,7 @@ h1, h2, h3 {
   color: red;
 }
 
-/* ===== 반응형 ===== */
+/* 반응형 */
 @media (max-width: 480px) {
   .wrap, #appWrap {
     width: 90%;

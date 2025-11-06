@@ -1,17 +1,25 @@
 <!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   <meta name="viewport"
-  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#007bff" />
+
+  <!-- iOS 홈화면 앱 설정 -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="To Do Mate">
+
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="manifest" href="manifest.json">
 
   <title>To Do Mate</title>
   <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
 </head>
 <body>
 
-  <!-- ===== 로그인 / 회원가입 통합 화면 ===== -->
+  <!-- 로그인 / 회원가입 -->
   <div class="wrap" id="authWrap">
     <h2 id="authTitle">🔐 로그인</h2>
     <input type="text" id="authId" placeholder="아이디 입력">
@@ -23,14 +31,13 @@
     </p>
   </div>
 
-  <!-- ===== 앱 메인 화면 ===== -->
+  <!-- 메인 앱 -->
   <div class="wrap" id="appWrap" style="display:none;">
     <div class="header">
       <h2 id="welcomeMsg"></h2>
       <button id="logoutBtn">로그아웃</button>
     </div>
 
-    <!-- ✅ 캘린더 영역 -->
     <div id="calendar"></div>
 
     <div class="input-area">
@@ -45,7 +52,11 @@
   <script src="app.js"></script>
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js');
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js')
+          .then(() => console.log('✅ Service Worker Registered'))
+          .catch(err => console.error('❌ SW registration failed:', err));
+      });
     }
   </script>
 </body>
