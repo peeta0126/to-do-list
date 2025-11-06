@@ -13,6 +13,7 @@
   </script>
 </head>
 <body>
+
   <!-- ===== 회원가입 화면 ===== -->
   <div class="wrap" id="registerWrap">
     <h1>🧾 회원가입</h1>
@@ -38,10 +39,15 @@
       <button id="logoutBtn">로그아웃</button>
     </div>
 
+    <!-- ✅ 캘린더 영역 -->
+    <div id="calendar"></div>
+
     <div class="input-area">
       <input id="todo-input" type="text" placeholder="할 일을 입력하세요" />
       <button id="add-btn">추가</button>
     </div>
+
+    <h3 id="selectedDateText"></h3>
     <ul id="todo-list"></ul>
   </div>
 

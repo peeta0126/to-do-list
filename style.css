@@ -8,6 +8,7 @@
   --done: #94a3b8;
 }
 
+/* 기본 세팅 */
 * {
   box-sizing: border-box;
 }
@@ -24,7 +25,7 @@ body {
   min-height: 100vh;
 }
 
-/* 공통 카드 스타일 */
+/* 공통 카드 형태 */
 .wrap {
   width: 100%;
   max-width: 420px;
@@ -42,6 +43,7 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* 제목 */
 h1, h2 {
   margin-top: 0;
   text-align: center;
@@ -53,27 +55,32 @@ p {
   text-align: center;
 }
 
+/* ===== 입력창 (크게 변경됨) ===== */
 input {
   width: 100%;
-  padding: 12px;
-  border-radius: 12px;
+  height: 52px;             /* ✅ 입력창 높이 업 */
+  padding: 0 16px;          /* 좌우 여백 */
+  border-radius: 16px;      /* 둥근 모서리 */
   border: 1px solid #cbd5e1;
   outline: none;
   margin-bottom: 12px;
-  font-size: 15px;
+  font-size: 17px;          /* ✅ 글자 크기 확대 */
   background: #f8fafc;
+  color: #1e293b;           /* ✅ 글자색 진하게 */
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
 }
 
 input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.25);
 }
 
+/* ===== 버튼 ===== */
 button {
   width: 100%;
-  padding: 12px;
+  padding: 14px 20px;       /* ✅ 버튼 높이 확대 */
   border: none;
-  border-radius: 12px;
+  border-radius: 14px;
   background: var(--accent);
   color: white;
   font-size: 16px;
@@ -86,6 +93,7 @@ button:hover {
   background: var(--accent-hover);
 }
 
+/* ===== 상단 헤더 ===== */
 .header {
   display: flex;
   justify-content: space-between;
@@ -110,21 +118,55 @@ button:hover {
   background: #e11d48;
 }
 
+/* ===== 입력 영역 ===== */
 .input-area {
   display: flex;
+  align-items: center;
   gap: 8px;
   margin-bottom: 16px;
 }
 
 #todo-input {
-  flex: 1;
+  flex: 1;                 /* ✅ 입력창을 넓게 */
+  height: 48px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid #cbd5e1;
+  font-size: 16px;
+  background: #f8fafc;
+  color: #1e293b;
+  outline: none;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
 }
 
+#todo-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.25);
+}
+#add-btn {
+  width: 80px;              /* ✅ 버튼 작게 */
+  height: 48px;
+  border-radius: 12px;
+  background: var(--accent);
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+#add-btn:hover {
+  background: var(--accent-hover);
+}
+/* ===== ToDo 리스트 ===== */
 ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
+
+
 
 li {
   display: flex;
@@ -152,13 +194,14 @@ li button {
 }
 
 li button:first-child {
-  color: #10b981;
+  color: #10b981; /* 초록 체크 */
 }
 
 li button:last-child {
-  color: #ef4444;
+  color: #ef4444; /* 빨간 삭제 */
 }
 
+/* ===== 링크 ===== */
 a {
   color: var(--accent);
   font-weight: 600;
@@ -169,6 +212,44 @@ a:hover {
   text-decoration: underline;
 }
 
+/* ===== 달력 ===== */
+#calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.calendar-day {
+  background: white;
+  border-radius: 10px;
+  padding: 10px 0;
+  cursor: pointer;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: 0.2s;
+}
+
+.calendar-day:hover {
+  transform: scale(1.05);
+}
+
+.calendar-day.selected {
+  background: #a5d8ff; /* 파스텔 블루 */
+  color: #1e293b;
+  font-weight: 700;
+}
+
+.calendar-day.complete {
+  background: #a5d8ff; /* 모든 일 완료: 파랑 */
+}
+
+.calendar-day.incomplete {
+  background: #ffa8a8; /* 미완료: 빨강 */
+}
+
+/* ===== 반응형 ===== */
 @media (max-width: 480px) {
   .wrap {
     margin: 20px;
