@@ -41,3 +41,7 @@ self.addEventListener('fetch', (event) => {
       .then((response) => response || fetch(event.request))
   );
 });
+
+self.addEventListener('install', (event) => {
+  self.skipWaiting(); // 새 서비스워커가 바로 적용됨
+});

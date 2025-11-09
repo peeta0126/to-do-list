@@ -1,3 +1,4 @@
+// ===== 요소 =====
 const authWrap = document.getElementById('authWrap');
 const appWrap = document.getElementById('appWrap');
 const authTitle = document.getElementById('authTitle');
@@ -18,14 +19,48 @@ const monthLabel = document.getElementById('monthLabel');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
 
+// ===== 상태 변수 =====
 let isRegisterMode = false;
 let todos = {};
 let currentDate = new Date().toISOString().split('T')[0];
 let isWeekMode = false;
 let viewDate = new Date();
-const today = new Date().toISOString().split('T')[0]; // ✅ 오늘 날짜
+const today = new Date().toISOString().split('T')[0];
 
-// === 로그인 로직 ===
+// ===== 월요일 기준 요일 계산 =====
+const monIndex = d => (d.getDay() + 6) % 7; // 월(1)=0, 화(2)=1 ... 일(0)=6
+
+// ===== 사용자별 데이터 관리 =====
+function getTodoKey() {
+  const user = localStorage.getItem('currentUser');
+  return user ? `todos_${user}` : null;
+}
+
+function loadTodos() {
+  const key = getTodoKey();
+  if (!key) return;
+  try {
+    const raw = localStorage.getItem(key);
+    if (raw) {
+      todos = JSON.parse(raw) || {};
+    } else {
+      // 예전 구조 호환
+      const legacy = JSON.parse(localStorage.getItem('todos') || '{}');
+      todos = legacy;
+      localStorage.setItem(key, JSON.stringify(todos));
+    }
+  } catch (e) {
+    todos = {};
+  }
+}
+
+function saveTodos() {
+  const key = getTodoKey();
+  if (!key) return;
+  localStorage.setItem(key, JSON.stringify(todos));
+}
+
+// ===== 회원가입 / 로그인 =====
 switchMode.addEventListener('click', e => {
   e.preventDefault();
   isRegisterMode = !isRegisterMode;
@@ -54,109 +89,108 @@ authBtn.addEventListener('click', () => {
 
   const user = users.find(u => u.id === id && u.pw === pw);
   if (!user) return alert('아이디 또는 비밀번호가 올바르지 않습니다.');
+
   localStorage.setItem('currentUser', id);
+  loadTodos(); // ✅ 로그인 시 사용자 데이터 복원
   showApp();
 });
 
 logoutBtn.addEventListener('click', () => {
-  localStorage.removeItem('currentUser');
-  location.reload();
+  localStorage.removeItem('currentUser'); // ✅ todos_<user>는 유지
+  appWrap.style.display = 'none';
+  authWrap.style.display = 'block';
 });
 
-// === 데이터 저장 ===
-function getTodoKey() {
-  const user = localStorage.getItem('currentUser');
-  return user ? `todos_${user}` : null;
-}
-function loadTodos() {
-  todos = JSON.parse(localStorage.getItem(getTodoKey())) || {};
-}
-function saveTodos() {
-  localStorage.setItem(getTodoKey(), JSON.stringify(todos));
-}
-
-// === 캘린더 ===
+// ===== 캘린더 =====
 function renderCalendar() {
   calendar.innerHTML = '';
-
-  const year = viewDate.getFullYear();
-  const month = viewDate.getMonth();
-  const firstDay = new Date(year, month, 1).getDay();
-  const lastDate = new Date(year, month + 1, 0).getDate();
-  monthLabel.textContent = `${year}년 ${month + 1}월`;
+  const y = viewDate.getFullYear();
+  const m = viewDate.getMonth();
+  monthLabel.textContent = `${y}년 ${m + 1}월`;
 
   if (!isWeekMode) {
-    // 월간 보기
-    for (let i = 0; i < firstDay; i++) {
-      const empty = document.createElement('div');
-      calendar.appendChild(empty);
+    // === 월간 보기 ===
+    const firstDayMon = monIndex(new Date(y, m, 1)); // 월요일 기준 시작 요일
+    const lastDate = new Date(y, m + 1, 0).getDate();
+
+    // 앞쪽 빈칸
+    for (let i = 0; i < firstDayMon; i++) {
+      calendar.appendChild(document.createElement('div'));
     }
+
     for (let day = 1; day <= lastDate; day++) {
-      const fullDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+      const d = new Date(y, m, day);
+      const full = d.toISOString().split('T')[0];
+      const w = monIndex(d);
+
       const cell = document.createElement('div');
-      cell.classList.add('calendar-day');
-      cell.textContent = day;
+      cell.className = 'calendar-day';
+      if (w === 5) cell.classList.add('sat'); // 토요일
+      if (w === 6) cell.classList.add('sun'); // 일요일
+      if (full === today) cell.classList.add('today'); // 오늘 표시
 
-      // ✅ 오늘 표시
-      if (fullDate === today) {
-        cell.classList.add('today');
-      }
-
-      const dayTodos = todos[fullDate] || [];
+      // 할일 상태
+      const dayTodos = todos[full] || [];
       if (dayTodos.length) {
         const allDone = dayTodos.every(t => t.done);
         cell.classList.add(allDone ? 'complete' : 'incomplete');
       }
-      if (fullDate === currentDate) cell.classList.add('selected');
+
+      if (full === currentDate) cell.classList.add('selected');
+      cell.textContent = day;
 
       cell.addEventListener('click', () => {
-        currentDate = fullDate;
-        viewDate = new Date(fullDate);
+        currentDate = full;
+        viewDate = new Date(full);
         render();
       });
+
       calendar.appendChild(cell);
     }
   } else {
-    // 주간 보기 (선택한 날짜 기준)
-    const selected = new Date(currentDate);
-    const weekStart = new Date(selected);
-    weekStart.setDate(selected.getDate() - selected.getDay());
-    const endOfWeek = new Date(weekStart);
-    endOfWeek.setDate(weekStart.getDate() + 6);
+    // === 주간 보기 ===
+    const sel = new Date(currentDate);
+    const offset = monIndex(sel);
+    const weekStart = new Date(sel);
+    weekStart.setDate(sel.getDate() - offset);
+    const end = new Date(weekStart);
+    end.setDate(weekStart.getDate() + 6);
 
-    monthLabel.textContent = `${year}년 ${month + 1}월 (${weekStart.getDate()}~${endOfWeek.getDate()}일)`;
+    monthLabel.textContent = `${y}년 ${m + 1}월 (${weekStart.getDate()}~${end.getDate()}일)`;
 
     for (let i = 0; i < 7; i++) {
       const d = new Date(weekStart);
       d.setDate(weekStart.getDate() + i);
-      const fullDate = d.toISOString().split('T')[0];
+      const full = d.toISOString().split('T')[0];
+      const w = monIndex(d);
+
       const cell = document.createElement('div');
-      cell.classList.add('calendar-day');
-      cell.textContent = d.getDate();
+      cell.className = 'calendar-day';
+      if (w === 5) cell.classList.add('sat');
+      if (w === 6) cell.classList.add('sun');
+      if (full === today) cell.classList.add('today');
 
-      // ✅ 오늘 표시
-      if (fullDate === today) {
-        cell.classList.add('today');
-      }
-
-      const dayTodos = todos[fullDate] || [];
+      const dayTodos = todos[full] || [];
       if (dayTodos.length) {
         const allDone = dayTodos.every(t => t.done);
         cell.classList.add(allDone ? 'complete' : 'incomplete');
       }
-      if (fullDate === currentDate) cell.classList.add('selected');
+
+      if (full === currentDate) cell.classList.add('selected');
+      cell.textContent = d.getDate();
 
       cell.addEventListener('click', () => {
-        currentDate = fullDate;
-        viewDate = new Date(fullDate);
+        currentDate = full;
+        viewDate = new Date(full);
         render();
       });
+
       calendar.appendChild(cell);
     }
   }
 }
 
-// === 이전/다음 이동 ===
+// ===== 이전 / 다음 이동 =====
 prevBtn.addEventListener('click', () => {
   if (isWeekMode) {
     viewDate.setDate(viewDate.getDate() - 7);
@@ -166,6 +200,7 @@ prevBtn.addEventListener('click', () => {
   }
   renderCalendar();
 });
+
 nextBtn.addEventListener('click', () => {
   if (isWeekMode) {
     viewDate.setDate(viewDate.getDate() + 7);
@@ -176,17 +211,15 @@ nextBtn.addEventListener('click', () => {
   renderCalendar();
 });
 
-// === 모드 전환 ===
+// ===== 주간 / 월간 전환 =====
 toggleViewBtn.addEventListener('click', () => {
   isWeekMode = !isWeekMode;
   toggleViewBtn.textContent = isWeekMode ? '📅 월간보기' : '📆 주간보기';
-
-  // ✅ 선택한 날짜를 기준으로 전환
   viewDate = new Date(currentDate);
   renderCalendar();
 });
 
-// === 할 일 ===
+// ===== 할 일 목록 =====
 function render() {
   list.innerHTML = '';
   const dayTodos = todos[currentDate] || [];
@@ -194,38 +227,61 @@ function render() {
   dayTodos.forEach((todo, idx) => {
     const li = document.createElement('li');
     li.className = todo.done ? 'done' : '';
-    li.innerHTML = `<span>${todo.text}</span>
+    li.innerHTML = `
+      <span>${todo.text}</span>
       <div>
         <button onclick="toggle('${currentDate}', ${idx})">✔</button>
         <button onclick="remove('${currentDate}', ${idx})">✖</button>
-      </div>`;
+      </div>
+    `;
     list.appendChild(li);
   });
   renderCalendar();
 }
+
 function add() {
   const text = input.value.trim();
   if (!text) return;
   if (!todos[currentDate]) todos[currentDate] = [];
   todos[currentDate].unshift({ text, done: false });
   input.value = '';
-  saveTodos(); render();
+  saveTodos();
+  render();
 }
-function toggle(date, idx) { todos[date][idx].done = !todos[date][idx].done; saveTodos(); render(); }
-function remove(date, idx) { todos[date].splice(idx, 1); saveTodos(); render(); }
+
+function toggle(date, idx) {
+  todos[date][idx].done = !todos[date][idx].done;
+  saveTodos();
+  render();
+}
+
+function remove(date, idx) {
+  todos[date].splice(idx, 1);
+  saveTodos();
+  render();
+}
 
 addBtn.addEventListener('click', add);
-input.addEventListener('keypress', e => { if (e.key === 'Enter') add(); });
+input.addEventListener('keypress', e => {
+  if (e.key === 'Enter') add();
+});
 
-// === 로그인 유지 ===
+// ===== 로그인 유지 =====
 function checkLogin() {
   const user = localStorage.getItem('currentUser');
-  if (user) { loadTodos(); showApp(); }
+  if (user) {
+    loadTodos();
+    showApp();
+  }
 }
+
 function showApp() {
   const user = localStorage.getItem('currentUser');
   authWrap.style.display = 'none';
   appWrap.style.display = 'flex';
-  renderCalendar(); render();
+  renderCalendar();
+  render();
 }
+
+// ===== 실행 =====
 checkLogin();
