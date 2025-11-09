@@ -5,15 +5,11 @@
   <meta name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#007bff" />
-
-  <!-- iOS 홈화면 앱 설정 -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="To Do Mate">
-
   <link rel="apple-touch-icon" href="icons/icon-192.png">
   <link rel="manifest" href="manifest.json">
-
   <title>To Do Mate</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -35,8 +31,30 @@
   <div class="wrap" id="appWrap" style="display:none;">
     <div class="header">
       <h2 id="welcomeMsg"></h2>
-      <button id="logoutBtn">로그아웃</button>
+      <div class="header-right">
+        <button id="toggleViewBtn">📆 주간보기</button>
+        <button id="logoutBtn">로그아웃</button>
+      </div>
     </div>
+
+    <!-- 달력 헤더 -->
+    <div class="calendar-header">
+      <button id="prevBtn">◀</button>
+      <h3 id="monthLabel"></h3>
+      <button id="nextBtn">▶</button>
+    </div>
+
+    
+    <!-- ✅ 요일 헤더 추가 -->
+    <div class="weekdays">
+      <div class="sun">일</div>
+      <div>월</div>
+      <div>화</div>
+      <div>수</div>
+      <div>목</div>
+      <div class="sat">토</div>
+    </div>
+
 
     <div id="calendar"></div>
 

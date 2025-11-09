@@ -18,134 +18,93 @@
 }
 
 html, body {
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  touch-action: none;
-  overscroll-behavior: none;
+  width: 100%;
+  min-height: 100vh;
   background: var(--bg);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  overflow-y: auto;
 }
 
-/* 공통 카드 */
+/* 메인 카드 */
 .wrap {
-  width: 380px;
-  background: var(--card);
-  box-shadow: var(--shadow);
-  border-radius: 16px;
-  padding: 30px;
-  text-align: center;
-  transition: 0.3s;
-}
-
-h2, h3 {
-  color: var(--text);
-  margin-bottom: 16px;
-}
-
-/* 로그인 / 회원가입 */
-#authWrap {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  align-items: center;
-}
-
-#authWrap input {
-  width: 100%;
-  padding: 12px;
-  border: 1.5px solid #ccc;
-  border-radius: 8px;
-  font-size: 14px;
-}
-
-#authWrap input:focus {
-  border-color: var(--primary);
-  background: var(--primary-light);
-  outline: none;
-}
-
-#authBtn {
-  margin-top: 8px;
-  width: 100%;
-  padding: 12px;
-  background: var(--primary);
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-#authBtn:hover {
-  background: #0062cc;
-}
-
-#switchText {
-  margin-top: 10px;
-  font-size: 13px;
-}
-
-#switchText a {
-  color: var(--primary);
-  text-decoration: none;
-  font-weight: 600;
-}
-
-#switchText a:hover {
-  text-decoration: underline;
-}
-
-/* 메인 앱 */
-#appWrap {
-  width: 440px;
+  width: 420px;
   background: var(--card);
   box-shadow: var(--shadow);
   border-radius: 16px;
   padding: 25px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  margin: 30px 0;
 }
 
+/* 헤더 */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 
-#welcomeMsg {
-  font-size: 17px;
-  font-weight: 600;
-  color: var(--text);
+.header-right {
+  display: flex;
+  gap: 8px;
 }
 
-#logoutBtn {
-  background: var(--accent);
+.header-right button {
+  padding: 6px 10px;
   border: none;
-  color: white;
-  padding: 6px 12px;
   border-radius: 8px;
   cursor: pointer;
+  background: var(--primary);
+  color: #fff;
   font-size: 13px;
 }
 
-#logoutBtn:hover {
-  background: #ff4c4c;
-}
+.header-right button:hover { background: #0056b3; }
 
 /* 캘린더 */
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.calendar-header button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--primary);
+}
+
+/* 요일 헤더 */
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #555;
+}
+
+.weekdays .sun { color: #e53935; } /* 일요일 빨강 */
+.weekdays .sat { color: #1e88e5; } /* 토요일 파랑 */
+
+/* 기존 calendar 스타일 유지 */
 #calendar {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 6px;
-  margin: 15px 0 20px 0;
+  margin-bottom: 15px;
 }
 
+
 .calendar-day {
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1/1;
   border-radius: 10px;
   background: #f1f4f9;
   display: flex;
@@ -154,37 +113,17 @@ h2, h3 {
   font-size: 14px;
   cursor: pointer;
   transition: 0.2s;
-  color: #444;
 }
 
-.calendar-day:hover {
-  background: var(--primary-light);
-  color: var(--primary);
-}
+.calendar-day.selected { background: var(--primary); color: #fff; }
+.calendar-day.complete { background: #d6f5d6; color: #087f23; }
+.calendar-day.incomplete { background: #ffe5e5; color: #b71c1c; }
 
-.calendar-day.selected {
-  background: var(--primary);
-  color: white;
-  box-shadow: 0 0 6px rgba(0, 123, 255, 0.3);
-}
-
-.calendar-day.complete {
-  background: #d6f5d6;
-  color: #087f23;
-}
-
-.calendar-day.incomplete {
-  background: #ffe5e5;
-  color: #b71c1c;
-}
-
-/* 할 일 입력 */
+/* 입력 영역 */
 .input-area {
   display: flex;
   gap: 8px;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 #todo-input {
@@ -192,13 +131,6 @@ h2, h3 {
   padding: 10px;
   border-radius: 8px;
   border: 1.5px solid #ccc;
-  font-size: 14px;
-}
-
-#todo-input:focus {
-  border-color: var(--primary);
-  background: var(--primary-light);
-  outline: none;
 }
 
 #add-btn {
@@ -208,28 +140,22 @@ h2, h3 {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-weight: 600;
-}
-
-#add-btn:hover {
-  background: #0056b3;
 }
 
 /* 할 일 목록 */
 #todo-list {
   list-style: none;
   padding: 0;
+  margin-bottom: 20px;
 }
 
 #todo-list li {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   background: #f7f9fc;
   border-radius: 8px;
-  padding: 10px 14px;
+  padding: 10px;
   margin-bottom: 8px;
-  box-shadow: var(--shadow);
 }
 
 #todo-list li.done span {
@@ -237,26 +163,15 @@ h2, h3 {
   color: #888;
 }
 
-#todo-list li button {
-  border: none;
-  background: none;
-  cursor: pointer;
-  font-size: 16px;
-  margin-left: 6px;
-}
-
-#todo-list li button:nth-child(1) {
-  color: green;
-}
-
-#todo-list li button:nth-child(2) {
-  color: red;
-}
-
 /* 반응형 */
 @media (max-width: 480px) {
-  .wrap, #appWrap {
-    width: 90%;
-    padding: 20px;
-  }
+  .wrap { width: 90%; padding: 20px; margin: 20px 0; }
+}
+
+
+/* 오늘 날짜 표시 */
+.calendar-day.today {
+  border: 2px solid #007bff;
+  font-weight: 700;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.4);
 }
